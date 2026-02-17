@@ -21,10 +21,10 @@ samples, guidance on mobile development, and a full API reference.
 ## 🖼 Screenshots
 <p align="center">
   <img src="./screens/tasks_screen.png" alt="Task Screen" width="400"/>
-  <img src="./screens/pending_screen.png.png" alt="Pending Screen" width="400"/>
-  <img src="./screens/completed_screen.png.png" alt="Completed Screen" width="400"/>
-  <img src="./screens/addTask_screen1.png.png" alt="Add Task Screen1" width="400"/>
-  <img src="./screens/addTask_scree2.png.png" alt="Add Task Screen2" width="400"/>
+  <img src="./screens/pending_screen.png" alt="Pending Screen" width="400"/>
+  <img src="./screens/completed_screen.png" alt="Completed Screen" width="400"/>
+  <img src="./screens/addTask_screen1.png" alt="Add Task Screen1" width="400"/>
+  <img src="./screens/addTask_scree2.png" alt="Add Task Screen2" width="400"/>
 </p>
 
 
