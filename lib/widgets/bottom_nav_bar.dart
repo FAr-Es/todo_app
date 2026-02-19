@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_app/controllers/todo_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/blocs/cubit/todo_cubit.dart';
 import 'package:todo_app/screens/home_screen.dart';
 import 'package:todo_app/screens/pending_todos.dart';
 import 'package:todo_app/screens/completed_todos.dart';
@@ -10,8 +10,9 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<TodoController>(
-      builder: (context, todoController, child) {
+    final todoCubit = context.read<TodoCubit>();
+    return BlocBuilder<TodoCubit, TodoState>(
+      builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.only(bottom: 30.0),
           child: Container(
@@ -24,9 +25,9 @@ class BottomNavBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _navTab(context, 0, HomeScreen(), "All", todoController),
-                _navTab(context, 1, PendingTodos(), "Pending", todoController),
-                _navTab(context, 2, CompletedTodos(), "Completed", todoController),
+                _navTab(context, 0, HomeScreen(), "All", todoCubit),
+                _navTab(context, 1, PendingTodos(), "Pending", todoCubit),
+                _navTab(context, 2, CompletedTodos(), "Completed", todoCubit),
               ],
             ),
           ),
@@ -35,10 +36,16 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  Widget _navTab(BuildContext context, int index, Widget screen, String title, TodoController todoController) {
+  Widget _navTab(
+    BuildContext context,
+    int index,
+    Widget screen,
+    String title,
+    TodoCubit todoCubit,
+  ) {
     return GestureDetector(
       onTap: () {
-        todoController.changeTab(index);
+        todoCubit.changeTab(index);
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => screen),
@@ -49,7 +56,7 @@ class BottomNavBar extends StatelessWidget {
         width: 100,
         height: 31,
         decoration: BoxDecoration(
-          color: todoController.selectedTab == index
+          color: todoCubit.selectedTab == index
               ? Colors.black
               : Colors.transparent,
           borderRadius: BorderRadius.circular(40),
@@ -59,7 +66,7 @@ class BottomNavBar extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: 10,
-              color: todoController.selectedTab == index
+              color: todoCubit.selectedTab == index
                   ? Colors.white
                   : Colors.black,
               fontWeight: FontWeight.w500,

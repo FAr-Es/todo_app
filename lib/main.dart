@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'controllers/todo_controller.dart';  
-import 'screens/home_screen.dart';  
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/blocs/cubit/todo_cubit.dart';
+import 'screens/home_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,12 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => TodoController(),
+    return BlocProvider(
+      create: (BuildContext context) => TodoCubit(),
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Todo App',
-          home: const HomeScreen(),
+        debugShowCheckedModeBanner: false,
+        title: 'Todo App',
+        home: const HomeScreen(),
       ),
     );
   }

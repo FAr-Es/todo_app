@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_app/controllers/todo_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/blocs/cubit/todo_cubit.dart';
 
 class AddTodo extends StatefulWidget {
   const AddTodo({super.key});
@@ -12,12 +12,12 @@ class AddTodo extends StatefulWidget {
 class _AddTodoState extends State<AddTodo> {
   @override
   Widget build(BuildContext context) {
-    final todoController = Provider.of<TodoController>(context, listen: false);
+    final todoCubit = context.read<TodoCubit>();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: SafeArea(
-        child: Consumer<TodoController>(
-          builder: (context, todoController, child) {
+        child: BlocBuilder<TodoCubit, TodoState>(
+          builder: (context, state) {
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -60,7 +60,7 @@ class _AddTodoState extends State<AddTodo> {
                           bottom: 48,
                         ),
                         child: TextFormField(
-                          controller: todoController.taskNameController,
+                          controller: todoCubit.taskNameController,
                           decoration: InputDecoration(
                             hintText: "Name your task",
                             enabledBorder: const UnderlineInputBorder(
@@ -85,10 +85,10 @@ class _AddTodoState extends State<AddTodo> {
                           bottom: 48,
                         ),
                         child: TextFormField(
-                          controller: todoController.categoryController,
+                          controller: todoCubit.categoryController,
                           readOnly: true,
                           onTap: () {
-                            todoController.toggleCategories();
+                            todoCubit.toggleCategories();
                           },
                           decoration: InputDecoration(
                             hintText: "Choose a category",
@@ -98,7 +98,7 @@ class _AddTodoState extends State<AddTodo> {
                               ),
                             ),
                             suffixIcon: Icon(
-                              todoController.showCategories
+                              todoCubit.showCategories
                                   ? Icons.arrow_drop_up
                                   : Icons.arrow_drop_down,
                             ),
@@ -115,7 +115,7 @@ class _AddTodoState extends State<AddTodo> {
                       Padding(
                         padding: const EdgeInsets.only(left: 84, right: 83),
                         child: TextFormField(
-                          controller: todoController.dateController,
+                          controller: todoCubit.dateController,
                           readOnly: true,
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
@@ -128,7 +128,7 @@ class _AddTodoState extends State<AddTodo> {
                             if (pickedDate != null) {
                               String formattedDate =
                                   "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                              todoController.dateController.text = formattedDate;
+                              todoCubit.dateController.text = formattedDate;
                             }
                           },
                           decoration: InputDecoration(
@@ -164,17 +164,17 @@ class _AddTodoState extends State<AddTodo> {
                             ),
                           ),
                           onPressed: () {
-                            String taskName =
-                                todoController.taskNameController.text.trim();
-                            String category =
-                                todoController.categoryController.text.trim();
-                            String date =
-                                todoController.dateController.text.trim();
+                            String taskName = todoCubit.taskNameController.text
+                                .trim();
+                            String category = todoCubit.categoryController.text
+                                .trim();
+                            String date = todoCubit.dateController.text.trim();
 
                             if (taskName.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                    content: Text("Please enter a task name")),
+                                  content: Text("Please enter a task name"),
+                                ),
                               );
                               return;
                             }
@@ -182,7 +182,8 @@ class _AddTodoState extends State<AddTodo> {
                             if (category.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                    content: Text("Please choose a category")),
+                                  content: Text("Please choose a category"),
+                                ),
                               );
                               return;
                             }
@@ -194,11 +195,11 @@ class _AddTodoState extends State<AddTodo> {
                               return;
                             }
 
-                            todoController.addTodo();
+                            todoCubit.addTodo();
 
-                            todoController.taskNameController.clear();
-                            todoController.categoryController.clear();
-                            todoController.dateController.clear();
+                            todoCubit.taskNameController.clear();
+                            todoCubit.categoryController.clear();
+                            todoCubit.dateController.clear();
 
                             Navigator.pop(context);
                           },
@@ -217,8 +218,7 @@ class _AddTodoState extends State<AddTodo> {
                   ),
                 ),
 
-                
-                if (todoController.showCategories)
+                if (todoCubit.showCategories)
                   Positioned(
                     top: 400,
                     left: 154,
@@ -238,35 +238,35 @@ class _AddTodoState extends State<AddTodo> {
                               "assets/icons/personal.png",
                               Color(0xFFEEEBFF),
                               Color(0xFF4DB6AC),
-                              todoController,
+                              todoCubit,
                             ),
                             _categoryItem(
                               "Work",
                               "assets/icons/work.png",
                               Color(0xFFE8F0FF),
                               Color(0xFF42A5F5),
-                              todoController,
+                              todoCubit,
                             ),
                             _categoryItem(
                               "Health",
                               "assets/icons/health.png",
                               Color(0xFFFFEBEE),
                               Color(0xFFEF5350),
-                              todoController,
+                              todoCubit,
                             ),
                             _categoryItem(
                               "Family",
                               "assets/icons/family.png",
                               Color(0xFFFFF8E1),
                               Color(0xFF212121),
-                              todoController,
+                              todoCubit,
                             ),
                             _categoryItem(
                               "Learning",
                               "assets/icons/education.png",
                               Color(0xFFFFF3E0),
                               Color(0xFFFFA726),
-                              todoController,
+                              todoCubit,
                             ),
                           ],
                         ),
@@ -286,7 +286,7 @@ class _AddTodoState extends State<AddTodo> {
     String iconName,
     Color iconBgColor,
     Color textColor,
-    TodoController todoController,
+    TodoCubit todocubit,
   ) {
     return ListTile(
       leading: Container(width: 44, height: 44, child: Image.asset(iconName)),
@@ -299,8 +299,8 @@ class _AddTodoState extends State<AddTodo> {
         ),
       ),
       onTap: () {
-        todoController.categoryController.text = category;
-        todoController.hideCategories();
+        todocubit.categoryController.text = category;
+        todocubit.hideCategories();
       },
     );
   }

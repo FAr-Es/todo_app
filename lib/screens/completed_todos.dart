@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_app/controllers/todo_controller.dart';
-
+import 'package:todo_app/blocs/cubit/todo_cubit.dart';
 import 'package:todo_app/widgets/bottom_nav_bar.dart';
 
 class CompletedTodos extends StatefulWidget {
@@ -22,7 +21,7 @@ class _CompletedTodosState extends State<CompletedTodos> {
 
   @override
   Widget build(BuildContext context) {
-    final todoController = Provider.of<TodoController>(context, listen: false);
+    final todoCubit = context.read<TodoCubit>();
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 245, 245, 245),
       body: Padding(
@@ -58,22 +57,22 @@ class _CompletedTodosState extends State<CompletedTodos> {
 
                 Padding(
                   padding: const EdgeInsets.only(left: 117),
-                    child: Container(
-                      width: 42,
-                      height: 42,
-                      child: Image.asset("assets/icons/completed_icon.png")),
-                  
+                  child: Container(
+                    width: 42,
+                    height: 42,
+                    child: Image.asset("assets/icons/completed_icon.png"),
+                  ),
                 ),
               ],
             ),
             SizedBox(height: 97),
             Expanded(
-              child: Consumer<TodoController>(
-                builder: (context, value, _) => ListView.builder(
-                  itemCount: value.completedTodos.length,
+              child: BlocBuilder<TodoCubit, TodoState>(
+                builder: (context, state) => ListView.builder(
+                  itemCount: todoCubit.completedTodos.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    final item = value.completedTodos[index];
+                    final item = todoCubit.completedTodos[index];
                     return ListTile(
                       title: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,7 +105,7 @@ class _CompletedTodosState extends State<CompletedTodos> {
                           ),
                         ],
                       ),
-                    
+
                       leading: SizedBox(
                         width: 21.55,
                         height: 20,
@@ -123,7 +122,7 @@ class _CompletedTodosState extends State<CompletedTodos> {
                             ),
                             activeColor: Color.fromARGB(255, 0, 128, 128),
                             onChanged: (val) {
-                              todoController.toggleCompleted(item.id);
+                              todoCubit.toggleCompleted(item.id);
                             },
                           ),
                         ),
@@ -135,11 +134,10 @@ class _CompletedTodosState extends State<CompletedTodos> {
             ),
 
             // bottom navigation bar
-            BottomNavBar()
+            BottomNavBar(),
           ],
         ),
       ),
     );
   }
-
 }
