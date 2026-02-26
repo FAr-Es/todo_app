@@ -24,14 +24,6 @@ A clean, fully functional Flutter todo app built with the BLoC/Cubit pattern and
       <img src="screens/completed_screen.png" width="230"/><br/>
       <sub>Completed</sub>
     </td>
-    <td align="center">
-      <img src="screens/addTask_screen1.png.png" width="230"/><br/>
-      <sub>Completed</sub>
-    </td>
-    <td align="center">
-      <img src="screens/addTask_scree2.png.png" width="230"/><br/>
-      <sub>Completed</sub>
-    </td>
   </tr>
 </table>
 
