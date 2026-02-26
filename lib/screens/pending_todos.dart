@@ -68,68 +68,95 @@ class _PendingTodosState extends State<PendingTodos> {
             SizedBox(height: 97),
             Expanded(
               child: BlocBuilder<TodoCubit, TodoState>(
-                builder: (context, state) => ListView.builder(
-                  itemCount: todoCubit.pendingTodos.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final item = todoCubit.pendingTodos[index];
-                    return ListTile(
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                builder: (context, state) {
+                  if (todoCubit.pendingTodos.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            item.title,
+                            "No pending tasks!",
                             style: TextStyle(
-                              decoration: item.isChecked
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                              color: item.isChecked
-                                  ? Color.fromARGB(255, 209, 209, 209)
-                                  : Color.fromARGB(255, 115, 115, 115),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 180, 180, 180),
                             ),
                           ),
+                          SizedBox(height: 8),
                           Text(
-                            formatTimeOfDay(item.time),
+                            "You're all caught up 🎉",
                             style: TextStyle(
-                              decoration: item.isChecked
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                              color: item.isChecked
-                                  ? Color.fromARGB(255, 209, 209, 209)
-                                  : Color.fromARGB(255, 163, 163, 163),
                               fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(255, 200, 200, 200),
                             ),
                           ),
                         ],
                       ),
+                    );
+                  }
+                  return ListView.builder(
+                    itemCount: todoCubit.pendingTodos.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      final item = todoCubit.pendingTodos[index];
+                      return ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.title,
+                              style: TextStyle(
+                                decoration: item.isChecked
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                                color: item.isChecked
+                                    ? Color.fromARGB(255, 209, 209, 209)
+                                    : Color.fromARGB(255, 115, 115, 115),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              formatTimeOfDay(item.time),
+                              style: TextStyle(
+                                decoration: item.isChecked
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                                color: item.isChecked
+                                    ? Color.fromARGB(255, 209, 209, 209)
+                                    : Color.fromARGB(255, 163, 163, 163),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
 
-                      leading: SizedBox(
-                        width: 21.55,
-                        height: 20,
-                        child: Transform.scale(
-                          scale: 1.1,
-                          child: Checkbox(
-                            value: item.isChecked,
-                            shape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(2),
+                        leading: SizedBox(
+                          width: 21.55,
+                          height: 20,
+                          child: Transform.scale(
+                            scale: 1.1,
+                            child: Checkbox(
+                              value: item.isChecked,
+                              shape: BeveledRectangleBorder(
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                              side: const BorderSide(
+                                color: Color.fromARGB(255, 232, 232, 232),
+                                width: 1,
+                              ),
+                              activeColor: Color.fromARGB(255, 0, 128, 128),
+                              onChanged: (val) {
+                                todoCubit.toggleCompleted(item.id);
+                              },
                             ),
-                            side: const BorderSide(
-                              color: Color.fromARGB(255, 232, 232, 232),
-                              width: 1,
-                            ),
-                            activeColor: Color.fromARGB(255, 0, 128, 128),
-                            onChanged: (val) {
-                              todoCubit.toggleCompleted(item.id);
-                            },
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
 

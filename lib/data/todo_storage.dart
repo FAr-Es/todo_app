@@ -21,6 +21,8 @@ class TodoStorage {
         id: map['id'],
         time: TimeOfDay(hour: map['hour'], minute: map['minute']),
         isChecked: map['isChecked'],
+        category: map['category'],
+        date: map['date'],
       );
     }).toList();
   }

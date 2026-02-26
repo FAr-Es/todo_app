@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/models/todo_item.dart';
@@ -36,19 +37,23 @@ class TodoCubit extends Cubit<TodoState> {
     final title = taskNameController.text;
     final nowTime = DateTime.now().toUtc().microsecondsSinceEpoch;
     final now = DateTime.now();
+    final category = categoryController.text;
+    final date = dateController.text;
     if (title.trim().isEmpty) return;
     final newTodo = TodoItem(
       title: title,
       isChecked: false,
       id: nowTime,
       time: TimeOfDay(hour: now.hour, minute: now.minute),
+      category: category,
+      date: date,
     );
     _todos.add(newTodo);
     todoStorage.addTodoStorage(newTodo);
     emit(TodoSuccess());
   }
 
-  void reomveTodo(int id) {
+  void removeTodo(int id) {
     _todos.removeWhere((item) => item.id == id);
     todoStorage.updateTodoStorage(_todos);
     emit(TodoSuccess());

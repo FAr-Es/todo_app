@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/blocs/cubit/todo_cubit.dart';
-import 'package:todo_app/screens/home_screen.dart';
-import 'package:todo_app/screens/pending_todos.dart';
-import 'package:todo_app/screens/completed_todos.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key});
@@ -25,9 +22,9 @@ class BottomNavBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _navTab(context, 0, HomeScreen(), "All", todoCubit),
-                _navTab(context, 1, PendingTodos(), "Pending", todoCubit),
-                _navTab(context, 2, CompletedTodos(), "Completed", todoCubit),
+                _navTab(context, 0, "All", todoCubit),
+                _navTab(context, 1, "Pending", todoCubit),
+                _navTab(context, 2, "Completed", todoCubit),
               ],
             ),
           ),
@@ -39,17 +36,12 @@ class BottomNavBar extends StatelessWidget {
   Widget _navTab(
     BuildContext context,
     int index,
-    Widget screen,
     String title,
     TodoCubit todoCubit,
   ) {
     return GestureDetector(
       onTap: () {
         todoCubit.changeTab(index);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => screen),
-        );
       },
       child: Container(
         padding: EdgeInsets.all(8),

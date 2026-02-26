@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/blocs/cubit/todo_cubit.dart';
-import 'screens/home_screen.dart';
+import 'package:todo_app/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Todo App',
-        home: const HomeScreen(),
+        home: const MainScreen(),
       ),
     );
   }

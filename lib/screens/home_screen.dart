@@ -75,66 +75,134 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(height: 97),
-
             Expanded(
               child: BlocBuilder<TodoCubit, TodoState>(
                 builder: (context, state) {
+                  if (todoCubit.todos.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "No tasks yet",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Color.fromARGB(255, 180, 180, 180),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Tap + to add a new task",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromARGB(255, 200, 200, 200),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: todoCubit.todos.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final item = todoCubit.todos[index];
-                      return ListTile(
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.title,
-                              style: TextStyle(
-                                decoration: item.isChecked
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                                color: item.isChecked
-                                    ? Color.fromARGB(255, 209, 209, 209)
-                                    : Color.fromARGB(255, 115, 115, 115),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
+                      return Dismissible(
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.all(16),
+                          color: Colors.red,
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
                             ),
-                            Text(
-                              formatTimeOfDay(item.time),
-                              style: TextStyle(
-                                decoration: item.isChecked
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                                color: item.isChecked
-                                    ? Color.fromARGB(255, 209, 209, 209)
-                                    : Color.fromARGB(255, 163, 163, 163),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+                        key: ValueKey(item.id),
+                        onDismissed: (direction) {
+                          todoCubit.removeTodo(item.id);
+                        },
+                        child: ListTile(
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title,
+                                style: TextStyle(
+                                  decoration: item.isChecked
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                  color: item.isChecked
+                                      ? Color.fromARGB(255, 209, 209, 209)
+                                      : Color.fromARGB(255, 115, 115, 115),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                formatTimeOfDay(item.time),
+                                style: TextStyle(
+                                  decoration: item.isChecked
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                  color: item.isChecked
+                                      ? Color.fromARGB(255, 209, 209, 209)
+                                      : Color.fromARGB(255, 163, 163, 163),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
 
-                        leading: SizedBox(
-                          width: 21.55,
-                          height: 20,
-                          child: Transform.scale(
-                            scale: 1.1,
-                            child: Checkbox(
-                              value: item.isChecked,
-                              shape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(2),
+                          leading: SizedBox(
+                            width: 21.55,
+                            height: 20,
+                            child: Transform.scale(
+                              scale: 1.1,
+                              child: Checkbox(
+                                value: item.isChecked,
+                                shape: BeveledRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                                side: const BorderSide(
+                                  color: Color.fromARGB(255, 232, 232, 232),
+                                  width: 1,
+                                ),
+                                activeColor: Color.fromARGB(255, 0, 128, 128),
+                                onChanged: (val) {
+                                  todoCubit.toggleCompleted(item.id);
+                                },
                               ),
-                              side: const BorderSide(
-                                color: Color.fromARGB(255, 232, 232, 232),
-                                width: 1,
-                              ),
-                              activeColor: Color.fromARGB(255, 0, 128, 128),
-                              onChanged: (val) {
-                                todoCubit.toggleCompleted(item.id);
-                              },
+                            ),
+                          ),
+                          trailing: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  item.category,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Color.fromARGB(255, 163, 163, 163),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  item.date,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: Color.fromARGB(255, 163, 163, 163),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
