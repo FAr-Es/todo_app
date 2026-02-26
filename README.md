@@ -1,40 +1,86 @@
-# todo_app
+# ✅ Todo App
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-
-
-
-## 🖼 Screenshots
-<p align="center">
-  <img src="./screens/tasks_screen.png" alt="Task Screen" width="400"/>
-  <img src="./screens/pending_screen.png" alt="Pending Screen" width="400"/>
-  <img src="./screens/completed_screen.png" alt="Completed Screen" width="400"/>
-  <img src="./screens/addTask_screen1.png" alt="Add Task Screen1" width="400"/>
-  <img src="./screens/addTask_scree2.png" alt="Add Task Screen2" width="400"/>
-</p>
-
-
+A clean, fully functional Flutter todo app built with the BLoC/Cubit pattern and local persistence.
 
 ---
 
-## ⚙ Installation
+## 📱 Screenshots
+| ![All](./screens/tasks_screen1.png) | ![All](./screens/tasks_screen2.png) | ![Pending](./screens/pending_screen.png) | ![Completed](./screens/addTask_screen1.png) | ![Completed](./screens/addTask_screen2.png)
 
-1. Make sure you have [Flutter installed](https://flutter.dev/docs/get-started/install).  
-2. Clone the repository:
+---
 
-```bash
-git clone https://github.com/FAr-Es/food_delivery_app.git
+## ✨ Features
+
+- **Add tasks** with a name, category, and due date
+- **Three views** — All, Pending, and Completed tasks
+- **Mark complete** by tapping the checkbox
+- **Swipe to delete** tasks
+- **Category tagging** — Personal, Work, Health, Family, Learning
+- **Persistent storage** — tasks survive app restarts via SharedPreferences
+
+---
+
+## 🏗️ Architecture
+
+The app follows a clean BLoC/Cubit architecture to keep business logic separate from the UI.
+
+```
+lib/
+├── blocs/
+│   └── cubit/
+│       ├── todo_cubit.dart      # State management logic
+│       └── todo_state.dart      # State definitions
+├── data/
+│   └── todo_storage.dart        # SharedPreferences persistence layer
+├── models/
+│   └── todo_item.dart           # TodoItem data model
+├── screens/
+│   ├── main_screen.dart         # Root screen with IndexedStack navigation
+│   ├── home_screen.dart         # All tasks view
+│   ├── pending_todos.dart       # Pending tasks view
+│   ├── completed_todos.dart     # Completed tasks view
+│   └── add_todo.dart            # Add task screen
+├── widgets/
+│   └── bottom_nav_bar.dart      # Shared bottom navigation bar
+└── main.dart
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| [Flutter](https://flutter.dev) | UI framework |
+| [flutter_bloc](https://pub.dev/packages/flutter_bloc) | State management (Cubit) |
+| [shared_preferences](https://pub.dev/packages/shared_preferences) | Local persistence |
+| [intl](https://pub.dev/packages/intl) | Date formatting |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Flutter SDK `>=3.0.0`
+- Dart `>=3.0.0`
+
+### Installation
+
+1. Clone the repo
+   ```bash
+   git clone https://github.com/FAr-Es/todo-app.git
+   cd todo-app
+   ```
+
+2. Install dependencies
+   ```bash
+   flutter pub get
+   ```
+
+3. Run the app
+   ```bash
+   flutter run
+   ```
+
+---
