@@ -5,9 +5,50 @@ A clean, fully functional Flutter todo app built with the BLoC/Cubit pattern and
 ---
 
 ## 📱 Screenshots
-| ![All](./screens/tasks_screen1.png) | ![All](./screens/tasks_screen2.png) | ![Pending](./screens/pending_screen.png) | ![Completed](./screens/addTask_screen1.png) | ![Completed](./screens/addTask_screen2.png)
 
----
+<table>
+  <tr>
+    <td align="center">
+      <img src="screens/tasks_screen1.png" width="230"/><br/>
+      <sub>Tasks (Empty)</sub>
+    </td>
+    <td align="center">
+      <img src="screens/tasks_screen2.png" width="230"/><br/>
+      <sub>Tasks</sub>
+    </td>
+    <td align="center">
+      <img src="screens/pending_screen.png" width="230"/><br/>
+      <sub>Pending</sub>
+    </td>
+    <td align="center">
+      <img src="screens/completed_screen.png" width="230"/><br/>
+      <sub>Completed</sub>
+    </td>
+    <td align="center">
+      <img src="screens/addTask_screen1.png.png" width="230"/><br/>
+      <sub>Completed</sub>
+    </td>
+    <td align="center">
+      <img src="screens/addTask_scree2.png.png" width="230"/><br/>
+      <sub>Completed</sub>
+    </td>
+  </tr>
+</table>
+
+<br/>
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="screens/addTask_screen1.png" width="260"/><br/>
+      <sub>Add Task</sub>
+    </td>
+    <td align="center">
+      <img src="screens/addTask_scree2.png" width="260"/><br/>
+      <sub>Category Picker</sub>
+    </td>
+  </tr>
+</table>
 
 ## ✨ Features
 
